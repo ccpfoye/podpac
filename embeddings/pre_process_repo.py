@@ -79,5 +79,5 @@ if __name__ == "__main__":
     repo_path = "/home/cfoye/podpac/podpac/core/compositor/test"
     sections = process_directory(repo_path)
 
-    with open("small_output_sections.json", "w") as f:
+    with open("small/small_output_sections.json", "w") as f:
         json.dump(sections, f, indent=4)
