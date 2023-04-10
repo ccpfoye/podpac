@@ -28,7 +28,7 @@ def find_nearest_embeddings(tree, embedding, loaded_embeddings, k=5):
 
 if __name__ == "__main__":
     # Load the embeddings
-    sys_message = 'You are a very enthusiastic PDOPAC representative who loves to help people! Given the following sections from the PODPAC documentation or python code, using that information to inform your answer which is outputted in markdown format. If the the information is from documentation, it will start with "HOW TO", if it is from the code, it will start with "FROM <python filename> - <class name> - <function name>".'
+    sys_message = 'You are a very enthusiastic PDOPAC representative who loves to help people! Given the following sections from the PODPAC documentation or python code, using that information to inform your answer which is outputted in markdown format. If the the information is from documentation, it will start with "HOW TO <doc title>", if it is from the code, it will start with "FROM <python filename> - <class name> - <function name>".'
     code_embeddings_file = "code/code_embeddings.npy"
     doc_embeddings_file = "docs/doc_embeddings.npy"
     

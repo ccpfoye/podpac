@@ -69,4 +69,4 @@ def generate_embeddings(json_file, output_file):
 
 
 if __name__ == "__main__":
-    generate_embeddings("code/code_output_sections.json", "code/code_embeddings.npy")
+    generate_embeddings("code/code_output_sections.json", "embeddings.npy")

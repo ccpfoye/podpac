@@ -24,3 +24,15 @@
 
 # Another Way
 Use Retrievers!
+
+
+## Presenting:
+
+Block Diagrams
+
+## Use Cases:
+Input a python file, output:
+1. Functions with docstrings
+2. MD file for documentation.
+3. Trace multi-file function calls (promise chains)
+

@@ -38,4 +38,47 @@ stacked_coords = StackedCoordinates([lat, lon, time])
 coords = Coordinates([stacked_coords])
 ```
 Note that in the example above, it is assumed that module importation and other required packages have already been handled."
+```
+# Implement Daymet DataSource Node
 
+To implement a Daymet DataSource node, you can subclass the DataSource node and define the methods to retrieve data (`get_data()`), define the `coordinates` property (`get_native_coordinates()`), and set the necessary properties such as the `source` URL and `interpolation` method.
+Here is an example for retrieving Daymet data using the PODPAC DataSource node:
+```python
+from podpac import DataSource, Coordinates
+class DaymetSource(DataSource):
+        def get_data(self, coordinates, index):
+            # Use requests or other libraries to download data from Daymet at the given coordinates
+            data = download_daymet_data(coordinates)
+            return data
+        def get_native_coordinates(self):
+            # Define the native coordinates of the Daymet data using the podpac Coordinates object
+            coords = Coordinates([])
+            return coords
+        
+        def __init__(self, variable, year, north, south, east, west, source=None, interpolation=None, nan_vals=None, attrs=None):
+            url = f"https://thredds.daac.ornl.gov/thredds/dodsC/daymet-v4/{variable}/{year}/na.ncml"
+            boundary = {"bounds": {
+                "lat": [south, north],
+                "lon": [west, east],
+                "time": f"{year}-01-01{year+1}-01-01"
+                }
+            }
+            super().__init__(source=source or url,
+                            interpolation=interpolation,
+                            nan_vals=nan_vals,
+                            attrs=attrs or {},
+                            boundary=boundary)
+```
+You can use this `DaymetSource` class by instantiating it with the necessary arguments, such as the variable (e.g. `tmin`, `tmax`) and the year. Then you can evaluate the node at a given set of coordinates using `node.eval(coordinates)`.
+
+# Transform
+
+To transform WGS84 coordinates to meters, you can use the `transform` function from the `Coordinates` class in PODPAC. You can specify the input CRS as \"EPSG:4326\" (WGS84) and the output CRS as a projection in meters, such as \"EPSG:2193\" for New Zealand Transverse Mercator. Here is an example:
+
+```python
+import podpac
+# Define WGS84 coordinates
+c = podpac.Coordinates([[0, 1], [10, 20, 30, 40], ["2018-01-01", "2018-01-02"]], dims=["lat", "lon", "time"], crs="EPSG:4326")
+# Transform to meters using New Zealand Transverse Mercator projection
+t = c.transform("EPSG:2193")
+```
